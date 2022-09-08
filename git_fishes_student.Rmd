@@ -293,11 +293,29 @@ Re-analyse the data for a single species using permutations instead of a t-test.
 
 ```{r, stretch2, echo=TRUE, eval=FALSE}
 # Add your code here.
+for (i in unique(new_data$species))
+{
+    print(i)
+    permutation <- sample(new_data$activity[which(new_data$species==i)], replace = F)
+    permuted_group_data <- new_data %>% filter(species==i) 
+    permuted_group_data$activity <- permutation
+    outcome_permutation <- t.test(permuted_group_data%>% filter(treatment == "control") %>% select(activity), permuted_group_data %>% filter(treatment == "CO2") %>% select(activity))
+    print(outcome_permutation)
+}
+#After conducting the above experiment, we found that in all six species, the differences in the mean between the treatment and control groups largely disappeared, so it can basically be assumed that the difference in activity was due to the different conditions in the treatment and control groups
+
 ```
+
+
 
 Below. Add a few sentences for the species (or multiple species) you talked about above to describe the permutation results:
 
+
+
 **Add your text and inline code chunks here**
+After conducting the above permutation, we found that in all six species, the differences in the mean between the treatment and control groups largely disappeared, so it can basically be assumed that the difference in activity was due to the different conditions in the treatment and control groups
+
+For my choosen species `r "whitedams"`: Mean activity for `r "whitedams"` in the control group was `r "outcome_permutation$estimate[1]"` (s / min) compared to the OA treatment group, which was `r "outcome_permutation$estimate[2]"` (s / min). The difference between control and OA treatment means was `r "outcome_permutation$estimate[1]-outcome_permutation$estimate[2]"` (s / min) (95% CI: `r "outcome_permutation$conf.int[1]"` to `r "outcome_permutation$conf.int[2]"`). Because the t-statistic is `r "outcome_permutation$statistic"`, df is `r"outcome_permutation$parameter"` the p-value is  `r "outcome_permutation$p.value"`, which is  than the significance level a = 0.05, providing a strong statistical support for accept the null hypothesis.The differences in the mean between the treatment and control groups largely disappeared, so it can basically be assumed that the difference in activity was due to the different conditions in the treatment and control groups.
 
 # **Task 10**
 
