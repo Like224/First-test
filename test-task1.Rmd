@@ -1,0 +1,14 @@
+---
+title: "test"
+author: "Rick"
+date: "09/09/2022"
+output: html_document
+---
+
+
+
+```{r, answer1, echo=F, eval = FALSE}
+#GitHub is not a automate backup system, when we want to back up somthing, we need to upload it by myself. But for most back up system, like icloud, it will automatly backup my file. 
+## Write your answer here. 
+
+```

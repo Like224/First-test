@@ -51,9 +51,8 @@ This task involves cloning your repository on your computer. Where should we pla
 
 >**Question 1**: Why should you not rely on *GitHub* as a backup?
 
-```{r, answer1, echo=False, eval = FALSE}
-GitHub is not a automate backup system, when we want to back up somthing, we need to upload it by myself. But for most back up system, like icloud, it will automatly backup my file. 
-## Write your answer here. 
+```{r, answer1, echo=TRUE, eval = FALSE}
+##GitHub is not a automate backup system, when we want to back up somthing, we need to upload it by myself. But for most back up system, like icloud, it will automatly backup my file. 
 
 ```
 
@@ -64,7 +63,7 @@ Before moving on you might have noticed that the code block above has a name `an
 >**Question 2**: In the second code block called `answer1` if we change echo = TRUE to echo = FALSE what will happen to the code block `answer1` when you render it?
 
 ```{r answer2, echo=TRUE, eval = FALSE}
-# Write your answer here
+## This code block will be hidden when exporting to knit
 ```
 
 **Important**: Notice that `eval = FALSE` for many code chunks. When you complete the tasks. Make sure to change these to `TRUE` otherwise you will find your code does not run!
@@ -91,7 +90,7 @@ Make sure you have added a `data/` folder to your working directory that you jus
 
 Write your answer in the code chunk below:
 
-```{r, loaddata, eval = FALSE, echo=TRUE}
+```{r, loaddata, eval = T, echo=TRUE}
 
 path <- "data/OA_activitydat_20190302_BIOL3207.csv"
   
@@ -103,7 +102,7 @@ Let's say that you added a new data folder that was inside an output folder (i.e
 
 >**Question 4**: Using the `write_csv` function how would you write the path name to save this file to `output/data`?
 
-```{r, write, eval = FALSE, echo=TRUE}
+```{r, write, eval = T, echo=TRUE}
 
 path <- "data/OA_activitydat_20190302_BIOL3207.csv"
 
