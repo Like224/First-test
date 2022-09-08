@@ -173,13 +173,15 @@ Now that you have the figure you may also want to write / save it as a separate 
 
 ```{r, savefig}
 # Use ggsave to save the figure
-ggsave("prettyfig.png")
+#make sure my file paths point to a correct location by using the package here
+library(here)
+ggsave(filename = here("output/figures","fig1.png"))
 ```
 
 >**Question 6**: Given that you have added `output/figures/` to your `.gitignore` file describe what you notice about what you see in *GitHub Desktop*. 
 
 ```{r}
-## Write your answer here
+## Once I  have added `output/figures/` to your `.gitignore` file, the change in output/figures/ folder will not be saved and tracked in github. It is a best way to Ignoring figures.
 ```
 
 Last question for this task. I promise! It's important to think very carefully about what you track and ignore.
