@@ -1,6 +1,6 @@
 ---
 title: "Git, GitHub & Ocean Acidification"
-author: "<your name and u number>"
+author: "<Rick u7457512>"
 date: "`r Sys.Date()`"
 output: 
   bookdown::html_document2:
@@ -31,7 +31,7 @@ library(pacman)
 
 # Install bookdown for rendering because we'll need this. While we're at it, lets also install /load the tidyverse
 p_load(bookdown, tidyverse, ggforce, flextable, latex2exp, png, magick) # basically just list all the packages you want here
-
+library(plotrix)
 ```
 
 # **Task 1**
@@ -93,7 +93,7 @@ Write your answer in the code chunk below:
 
 ```{r, loaddata, eval = FALSE, echo=TRUE}
 
-path <- "OA_activitydat_20190302_BIOL3207.csv"
+path <- "data/OA_activitydat_20190302_BIOL3207.csv"
   
 data <- read_csv(path)
 
@@ -105,7 +105,7 @@ Let's say that you added a new data folder that was inside an output folder (i.e
 
 ```{r, write, eval = FALSE, echo=TRUE}
 
-path <- "OA_activitydat_20190302_BIOL3207.csv"
+path <- "data/OA_activitydat_20190302_BIOL3207.csv"
 
 write_csv(data, file = path)
 
@@ -129,12 +129,22 @@ Second, drop out irrelevant columns and check that there are no spelling issues 
 ```{r summaryTab}
 # Drop irrelevant columns
 new_data <- subset(data, select = -c(comment, loc))
-new_data
 # Check spelling in species and treatment but also generate a summary table
-summary(new_data)
+unique(new_data$species)
+unique(new_data$treatment)
+#use unique to check spelling error, it seems no spelling error
+mat <- summarise_at(group_by(new_data,species),vars(activity),funs(mean(.,na.rm=TRUE),std.error(.,)))
 # Use flextable to render the summary table in a tidy format
-flextable(new_data)
+summarise_at(group_by(new_data,species),vars(activity),funs(mean(.,),std.error(.,)))
+a <- summarise_at(group_by(new_data,species),vars(animal_id),funs(length(unique(.,)))) 
+data_test <- subset(a, select = -c(species))
+data_test2 <- cbind(mat,data_test)
+data_test2
+
+flextable(data_test2)
 ```
+
+
 
 **STOP**: Before moving on, it's a good time to establish some good *GitHub* practices. You have just done an important step. It's time to save this file, stage it and commit it so that you have a record. Push these changes up using *GitHub Desktop*. It's important to do this frequently. It's probably not needed after every line of code, but it's good to do this when you have completed an important coding step. Of course, there's no harm in doing it more often. It will provide fine-scale tracking for you!
 
