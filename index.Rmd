@@ -1,0 +1,52 @@
+---
+title: "Task10 index"
+author: "Rick u7457512 Zirui Zhang"
+date: "09/09/2022"
+output: html_document
+---
+
+
+##**Question 9**: Think about some things that can be improved in their code. 
+##List 3 things you think could be improved and provide a brief explanation for why.
+
+# 1)No ggplot package is used, only the original R is used, resulting in a huge amount of code and not too many comments, resulting in low readability of others, it will be better to use Rmarkdown
+# 2) A large number of code is used to statistical testing. Many of them are useless in the final ploting, resulting in occupying a large amount of resources and running slowly, not concise.
+# 3) The variable assignment is too casual, using too many variable names such as "chr1","qqp", making people forget the meaning of this variable when they see the code behind. And many variable names have been 
+
+```{r}
+library(tidyverse)
+oaa <- read.csv('./data/OA_activitydat_20190302_BIOL3207.csv', header=TRUE)
+oaa <- na.omit(oaa)
+```
+
+
+
+```{r}
+
+oaa$loc = factor(oaa$loc, labels = c("15","14","16"))
+oaa_new_1 <- oaa%>%mutate(treat = treatment)  %>% unite(col = "group", c(loc, treat), sep = "")
+ for (i in unique(oaa_new_1$species))
+{
+  oaa_new_2 <- oaa_new_1 %>% filter(species == i)
+  i <- ggplot(oaa_new_2,aes(x = group, y= activity)) + geom_boxplot(aes(col = treatment))+geom_jitter(aes(y = activity,col=treatment), width = 0.3)
+  print(i)
+}
+
+#But I have studied a lot of time, and I didn’t find a way to combine these diagrams together:()
+```
+
+```{r}
+#function method
+pictur <- function(specie){
+   oaa_new_2 <- oaa_new_1 %>% filter(species == specie)
+pict <- ggplot(oaa_new_2,aes(x = group, y= activity)) + geom_boxplot(aes(col = treatment))+geom_jitter(aes(y = activity,col=treatment), width = 0.3)
+  pict
+}
+
+```
+
+
+##**Question 10**: What are the challenges, if any, that you encounter in reproducing this figure?
+
+##**My answer**
+Created a for loop and function to solve this problem. The first is that I use boxplot. Although there are also averages and intervals, they are not exactly the same as the original image. The second is that these images are not combined. This is difficulties I've encountered

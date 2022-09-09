@@ -1,6 +1,6 @@
 ---
 title: "Git, GitHub & Ocean Acidification"
-author: "<Rick u7457512>"
+author: "<Rick u7457512 Zirui Zhang>"
 date: "`r Sys.Date()`"
 output: 
   bookdown::html_document2:
@@ -132,9 +132,8 @@ new_data <- subset(data, select = -c(comment, loc))
 unique(new_data$species)
 unique(new_data$treatment)
 #use unique to check spelling error, it seems no spelling error
-mat <- summarise_at(group_by(new_data,species),vars(activity),funs(mean(.,na.rm=TRUE),std.error(.,)))
+mat <- summarise_at(group_by(new_data,species),vars(activity),funs(mean(.,),std.error(.,)))
 # Use flextable to render the summary table in a tidy format
-summarise_at(group_by(new_data,species),vars(activity),funs(mean(.,),std.error(.,)))
 a <- summarise_at(group_by(new_data,species),vars(animal_id),funs(length(unique(.,)))) 
 data_test <- subset(a, select = -c(species))
 data_test2 <- cbind(mat,data_test)
@@ -162,7 +161,17 @@ Ignoring figures can be important because they take up quite a lot of space in y
 ```{r, prettyfig, fig.align='center', fig.cap="mean activity for each treatment for each species"}
 # ggplot figure showing mean activity for each treatment (Control, OA) for each species.
 task5 <- group_by(new_data,species,treatment)
-ggplot(task5, aes(x = species, y = activity)) + geom_boxplot(aes(col = treatment))
+ggplot(task5, aes(x = species, y = activity)) + geom_boxplot(aes(col = treatment)) 
+
+acantho <- image_read(path = './output/figures/acantho 05.07.38.png')
+ambon <- image_read(path = './output/figures/ambon 05.07.38.png')
+chromis <- image_read(path = './output/figures/chromis 05.07.38.png')
+humbug <- image_read(path = './output/figures/humbug 05.07.38.png')
+lemon <- image_read(path = './output/figures/lemon 05.07.38.png')
+whitedams <- image_read(path = './output/figures/whitedams 05.07.38.png')
+
+
+ggplot(task5, aes(x = species, y = activity)) + geom_boxplot(aes(col = treatment))+scale_y_continuous(limits = c(0,70)) +annotation_raster(acantho,0.5,1.4,60,73)+annotation_raster(ambon,1.5,2.4,60,73)+annotation_raster(chromis,2.5,3.4,60,73)+annotation_raster(humbug,3.5,4.4,60,73)+annotation_raster(lemon,4.5,5.4,60,73)+annotation_raster(whitedams,5.5,6.4,60,73)
 ```
 
 **Stretch Task**: The Clark et al. 2020 paper plots some pretty pictures on their figures. You have access to a folder called "pics/". Add the pics of the difference species from the "pics/" folder to your new plot. Explore the function `annotation_raster()` which might help you achieve this goal.
@@ -321,3 +330,4 @@ For my choosen species `r "whitedams"`: Mean activity for `r "whitedams"` in the
 # **Task 10**
 
 This is a stretch task on the use of *GitHub* and the challenges (or maybe lack of challenges) of reproducing others' work. If you finish the above tasks, then, have a crack at this one. See the html for details.
+All code has been done in index.Rmd, place go to github page to check
