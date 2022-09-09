@@ -52,7 +52,7 @@ This task involves cloning your repository on your computer. Where should we pla
 >**Question 1**: Why should you not rely on *GitHub* as a backup?
 
 ```{r, answer1, echo=TRUE, eval = FALSE}
-##GitHub is not a automate backup system, when we want to back up somthing, we need to upload it by myself. But for most back up system, like icloud, it will automatly backup my file. 
+##GitHub is not a automate backup system, when we want to back up somthing, we need to upload it by myself. But for most back up system, like icloud, it will automatly backup my file. That's teh reason why you can rely on github as a backup, once you didn't save your file, and did't upload it into github, there won't be back up.
 
 ```
 
@@ -158,7 +158,7 @@ Ignoring figures can be important because they take up quite a lot of space in y
 
 `.gitignore` files are used to control what *Git* tracks and what it ignores. You should have created a new folder path: `output/figures/`. Write some code now to create a pretty figure using ggplot that shows the difference between control and acidification treatments for each of the fish species in the data set:
 
-```{r, prettyfig, fig.align='center', fig.cap="mean activity for each treatment for each species"}
+```{r, prettyfig, fig.align='center', fig.cap="mean activity for each treatment for each species with picture"}
 # ggplot figure showing mean activity for each treatment (Control, OA) for each species.
 task5 <- group_by(new_data,species,treatment)
 ggplot(task5, aes(x = species, y = activity)) + geom_boxplot(aes(col = treatment)) 
@@ -182,7 +182,7 @@ Now that you have the figure you may also want to write / save it as a separate 
 
 ```{r, savefig}
 # Use ggsave to save the figure
-#make sure my file paths point to a correct location by using the package here
+#make sure my file paths point to a correct location by using the package here, which also provides convenience when others use my file
 library(here)
 ggsave(filename = here("output/figures","fig1.png"))
 ```
@@ -198,7 +198,7 @@ Last question for this task. I promise! It's important to think very carefully a
 >**Question 7**: Assume that you added the `pics/` folder to your working directory to plot pictures of each fish on your figure. Do you want to track the files in the pic/ folder on GitHub despite them being .png files? Explain your reasoning. 
 
 ```{r, answer6}
-## I don't want to trank the files, because we usually won't change the .png files and  png figures can take up a tonne of space, will slow down our upload speed and occupy a lot of resources
+## I  want to trank the files, because this is the result of the code running, on the one hand, if I change my code but the output images don't change, this can cause misunderstandings to people using my project, on the other hand, these images are the result of the code run and are part of our project, so even though they are .png files, I still keep track and uploading them
 ```
 
 # **Task 6**
@@ -262,16 +262,14 @@ for (i in unique(new_data$species))
 # a easier way to do this
 library(rstatix)
 stat.test <- group_by(new_data, species) %>% t_test(activity ~ treatment) 
-stat.test  
+stat.test
 ```
 
-```{r, table1, echo=TRUE, eval=TRUE, tab.cap = "stat.data"}
+```{r, table1, echo=TRUE, eval=TRUE, tab.cap = "summary table"}
 # Using the resulting object created above, which should be a table with all the summary statistics, t, df and p-value for each species create a table. Note that there is a tab.cap argument in the chunk arguments. Write a caption here. 
 new_stat.data <- subset(stat.test, select = -c(.y., group1,group2,n1,n2))
-new_stat.data
+flextable(new_stat.data)  
 
-
-str(outcome)
 ```
 
 Now that you have a table, you can reference it within a document. For example, you can make a call to Table \@ref(tab:table1) by referring to the name of the code chunk. When you knit the html it will create a hyperlink to your table and insert a legend above the table for you. How cool is that!?
@@ -288,20 +286,20 @@ Moving forward on that you can also add in an object and whatever that objects v
 
 This is all **VERY** cool because that means if your code or data change than you can update your entire report very fast. It's also 100% reproducible. We know exactly where every single value in your report comes from. This is all pretty helpful when you want to check your code and report side-by-side. Now that you have a bit more detail fill in the following:
 
-Mean activity for `r "whitedams"` in the control group was `r "outcome$estimate[1]"` (s / min) compared to the OA treatment group, which was `r "outcome$estimate[2]"` (s / min). The difference between control and OA treatment means was `r "outcome$estimate[1]-outcome$estimate[2]"` (s / min) (95% CI: `r "outcome$conf.int[1]"` to `r "outcome$conf.int[2]"`). 
+Mean activity for `r "whitedams"` in the control group was `r outcome$estimate[1]` (s / min) compared to the OA treatment group, which was `r outcome$estimate[2]` (s / min). The difference between control and OA treatment means was `r outcome$estimate[1]-outcome$estimate[2]` (s / min) (95% CI: `r outcome$conf.int[1]` to `r outcome$conf.int[2]`). 
 
 Now, using what you just learnt, describe what the null hypothesis being tested was and provide statistical evidence (t-statistic, df, and p-value) to support your conclusion about whether we can reject the null hypothesis. Again, make sure you use in-line code. Write you answer below:
 
 **Write your answer here**
 H0: There is no difference between control and treatment groups in mean
-Because the t-statistic is `r "outcome$statistic"`, df is `r"outcome$parameter"` the p-value is  `r "outcome$p.value"`, which is  than the significance level a = 0.05, providing a strong statistical support for accept the null hypothesis
+Because the t-statistic is `r outcome$statistic`, df is `r outcome$parameter` the p-value is  `r outcome$p.value`, which is  than the significance level a = 0.05, providing a strong statistical support for accept the null hypothesis
 
 
 Re-analyse the data for a single species using permutations instead of a t-test. Do your results differ?
 
 >**Stretch Task**:  If you really want a challenge try doing permutation tests for each species. Again, loops, functions or tidyverse (or even combinations might help). 
 
-```{r, stretch2, echo=TRUE, eval=FALSE}
+```{r, stretch2, echo=TRUE, eval=T}
 # Add your code here.
 for (i in unique(new_data$species))
 {
@@ -313,7 +311,6 @@ for (i in unique(new_data$species))
     print(outcome_permutation)
 }
 #After conducting the above experiment, we found that in all six species, the differences in the mean between the treatment and control groups largely disappeared, so it can basically be assumed that the difference in activity was due to the different conditions in the treatment and control groups
-
 ```
 
 
@@ -323,11 +320,17 @@ Below. Add a few sentences for the species (or multiple species) you talked abou
 
 
 **Add your text and inline code chunks here**
+
+**My answer**
+
 After conducting the above permutation, we found that in all six species, the differences in the mean between the treatment and control groups largely disappeared, so it can basically be assumed that the difference in activity was due to the different conditions in the treatment and control groups
 
-For my choosen species `r "whitedams"`: Mean activity for `r "whitedams"` in the control group was `r "outcome_permutation$estimate[1]"` (s / min) compared to the OA treatment group, which was `r "outcome_permutation$estimate[2]"` (s / min). The difference between control and OA treatment means was `r "outcome_permutation$estimate[1]-outcome_permutation$estimate[2]"` (s / min) (95% CI: `r "outcome_permutation$conf.int[1]"` to `r "outcome_permutation$conf.int[2]"`). Because the t-statistic is `r "outcome_permutation$statistic"`, df is `r"outcome_permutation$parameter"` the p-value is  `r "outcome_permutation$p.value"`, which is  than the significance level a = 0.05, providing a strong statistical support for accept the null hypothesis.The differences in the mean between the treatment and control groups largely disappeared, so it can basically be assumed that the difference in activity was due to the different conditions in the treatment and control groups.
+
+
+For my choosen species `r "whitedams"`: Mean activity for `r "whitedams"` in the control group was `r outcome_permutation$estimate[1]` (s / min) compared to the OA treatment group, which was `r outcome_permutation$estimate[2]` (s / min). The difference between control and OA treatment means was `r outcome_permutation$estimate[1]-outcome_permutation$estimate[2]` (s / min) (95% CI: `r outcome_permutation$conf.int[1]` to `r outcome_permutation$conf.int[2]`). Because the t-statistic is `r outcome_permutation$statistic`, df is `r outcome_permutation$parameter` the p-value is  `r outcome_permutation$p.value`, which is  than the significance level a = 0.05, providing a strong statistical support for accept the null hypothesis.The differences in the mean between the treatment and control groups largely disappeared, so it can basically be assumed that the difference in activity was due to the different conditions in the treatment and control groups.
 
 # **Task 10**
 
 This is a stretch task on the use of *GitHub* and the challenges (or maybe lack of challenges) of reproducing others' work. If you finish the above tasks, then, have a crack at this one. See the html for details.
-All code has been done in index.Rmd, place go to github page to check
+All code has been done in index.Rmd, place go to github page to check 
+[My index.html](https://github.com/Rick781/First-test)
