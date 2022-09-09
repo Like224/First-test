@@ -1,6 +1,6 @@
 ---
 title: "Git, GitHub & Ocean Acidification"
-author: "<Rick u7457512 Zirui Zhang>"
+author: "Rick u7457512 Zirui Zhang"
 date: "`r Sys.Date()`"
 output: 
   bookdown::html_document2:
@@ -333,4 +333,4 @@ For my choosen species `r "whitedams"`: Mean activity for `r "whitedams"` in the
 
 This is a stretch task on the use of *GitHub* and the challenges (or maybe lack of challenges) of reproducing others' work. If you finish the above tasks, then, have a crack at this one. See the html for details.
 All code has been done in index.Rmd, place go to github page to check 
-[My index.html](https://github.com/Rick781/First-test)
+[My index.html](https://rick781.github.io/First-test/)
